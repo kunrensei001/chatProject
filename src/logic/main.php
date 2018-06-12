@@ -53,7 +53,7 @@ if(checkLoginNG()){
 	発言：<input type="text" name="hatugen">
 
 	<input type="submit" value="発言">
-		<button type="button" onclick="location.href='/chat_v01/logic/main.php'">更新</button>
+		<button type="button" onclick="location.href='/chat/logic/main.php'">更新</button>
 
 
 	</form>

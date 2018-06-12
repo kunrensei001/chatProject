@@ -20,7 +20,7 @@
 </head>
 <body>
 	<h1>ログイン画面</h1>
-	<form method="POST" action="/chat_v01/logic/login_judge.php">
+	<form method="POST" action="/chat/logic/login_judge.php">
 
 		<input type="hidden" name="token" value="<?=$token ?>">
 
