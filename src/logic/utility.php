@@ -24,6 +24,15 @@ function checkLoginNG(){
         $result = false;
     }
 
+    $userName="";
+    if(isset($_SESSION['userName'])){
+        $userName = $_SESSION['userName'];
+    }
+
+    if($userName === ''){
+        $result = true;
+    }
+
     if($result){
         $_SESSION['errMsg'] = "不正な処理です。トップからログインしてください。";
         return $result;
@@ -31,4 +40,5 @@ function checkLoginNG(){
         return $result;
     }
 }
+
 ?>
