@@ -9,7 +9,7 @@ if(checkLoginNG()){
 ?>
 
 <?php
-
+    require_once '../hidden/pathList.php';
     require_once '../hidden/DBaccess.php';
 
     $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
@@ -48,12 +48,12 @@ if(checkLoginNG()){
 </head>
 <body>
 
-	<form method="post" action="/chat/logic/main.php">
+	<form method="post" action="<?= $path_main ?>">
 
 	発言：<input type="text" name="hatugen">
 
 	<input type="submit" value="発言">
-		<button type="button" onclick="location.href='/chat/logic/main.php'">更新</button>
+		<button type="button" onclick="location.href='"<?= $path_main ?>"'">更新</button>
 
 
 	</form>

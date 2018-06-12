@@ -9,7 +9,11 @@
         unset($_SESSION['errMsg']);
     }
 
+    require_once './hidden/pathList.php';
+
 ?>
+
+
 
 
 <!DOCTYPE html>
@@ -20,7 +24,7 @@
 </head>
 <body>
 	<h1>ログイン画面</h1>
-	<form method="POST" action="/chat/logic/login_judge.php">
+	<form method="POST" action="<?= $path_login_judge ?>">
 
 		<input type="hidden" name="token" value="<?=$token ?>">
 
