@@ -45,66 +45,85 @@ if(checkLoginNG()){
 	<meta charset="UTF-8">
 
 	<title>部屋</title>
+
+	<style>
+        .boxA:after	{content: "";
+        	display: block;
+        	clear: both}
+
+        .chat	{float: left;
+        	width: 70%}
+
+        .task	{float: left;
+        	width: 30%}
+    </style>
 </head>
 <body>
 
-	<form method="post" action="<?= $path_main ?>">
+	<div class="chat">
+    	<form method="post" action="<?= $path_main ?>">
 
-	発言：<input type="text" name="hatugen">
+    	発言：<input type="text" name="hatugen">
 
-	<input type="submit" value="発言">
-		<button type="button" onclick="location.href='"<?= $path_main ?>"'">更新</button>
+    	<input type="submit" value="発言">
+    		<button type="button" onclick="location.href='"<?= $path_main ?>"'">更新</button>
 
 
-	</form>
+    	</form>
 
-	<table border="1" style="table-layout:fixed;width:100%;">
-    <colgroup>
-        <col style="width:5%;">
-        <col style="width:10%;">
-        <col style="width:70%;">
-        <col style="width:10%;">
-    </colgroup>
-	<thead><tr>
-    		<th>発言者</th>
-    		<th>顔</th>
-    		<th>発言</th>
-            <th>時刻</th>
-    		</tr>
-		<tbody>
-	<?php
-    	try{
-    	    $pdo = new PDO($dsn,$user,$password);
-    	    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-    	    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    	<table border="1" style="table-layout:fixed;width:100%;">
+        <colgroup>
+            <col style="width:5%;">
+            <col style="width:10%;">
+            <col style="width:70%;">
+            <col style="width:10%;">
+        </colgroup>
+    	<thead><tr>
+        		<th>発言者</th>
+        		<th>顔</th>
+        		<th>発言</th>
+                <th>時刻</th>
+        		</tr>
+    		<tbody>
+    	<?php
+        	try{
+        	    $pdo = new PDO($dsn,$user,$password);
+        	    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+        	    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sql_select = "select * from hatugen order by timestamp desc";
-            $stm = $pdo->prepare($sql_select);
-            $stm->execute();
-            $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-            foreach($result as $row){
-     ?>
+                $sql_select = "select * from hatugen order by timestamp desc";
+                $stm = $pdo->prepare($sql_select);
+                $stm->execute();
+                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+                foreach($result as $row){
+         ?>
 
-				<tr>
-					<td style="text-align: center;"><?php echo $row['hatugenSya']?></td>
-					<td><img src="<?php echo $row['imgPath'] ?>" width="100%"></td>
-					<td style="word-wrap:break-word;"><?php echo $row['hatugenNaiyou']?></td>
-                    <td><?php echo $row['timestamp']?></td>
-				</tr>
+    				<tr>
+    					<td style="text-align: center;"><?php echo $row['hatugenSya']?></td>
+    					<td><img src="<?php echo $row['imgPath'] ?>" width="100%"></td>
+    					<td style="word-wrap:break-word;"><?php echo $row['hatugenNaiyou']?></td>
+                        <td><?php echo $row['timestamp']?></td>
+    				</tr>
 
-	<?php
-            }
-    	    $pdo = null;
-    	}catch(Exception $e){
-    	    echo '<span class="error">エラーがありました。</span><br>';
-    	    echo $e->getMessage();
-    	    exit();
-    	}
+    	<?php
+                }
+        	    $pdo = null;
+        	}catch(Exception $e){
+        	    echo '<span class="error">エラーがありました。</span><br>';
+        	    echo $e->getMessage();
+        	    exit();
+        	}
 
-	?>
-		</tbody>
-	</table>
+    	?>
+    		</tbody>
+    	</table>
 
+	</div>
+
+	<div class="task">
+		タスク用領域
+
+	</div>
 
 </body>
 </html>
