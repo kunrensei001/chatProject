@@ -41,9 +41,15 @@ function checkLoginNG(){
     }
 }
 
-
+/**
+ *  注意：このメソッドでPDOを取得するけど、
+ *  呼び出し元で破棄しないといけない。
+ *  呼び出し元に任せてしまうが・・・いいのだろうか？ダメな気がする。
+ *
+ * @return PDO
+ */
 function getPDO(){
-    require_once '../hidden/DBaccess.php';
+    require '../hidden/DBaccess.php';
     $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
     $pdo = new PDO($dsn,$user,$password);
     $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
@@ -52,48 +58,52 @@ function getPDO(){
     return $pdo;
 }
 
+/**
+ *  概要：ログイン管理テーブルメンテナンス処理。
+ *  　　　実行時とLoginTimeを比較し、３０分経過しているレコードを削除する。
+ */
 function deleteLogoutUser(){
-    /*
-     * 1.loginManageテーブルの全レコードを取得する？
-     *   それとも、SQL分で30分経過しているレコードを取得する？
-     *   時間の計算ってできるのかな？
-     *   できるけど、SQLで実行するのはちょっと違うかな。
-     *   そのまま取得する。
-     *
-     * 2.全レコードをDateTime::diffで比較して３０分経過しているレコードの
-     *   primarykeyを配列に格納する。
-     *
-     * 3.格納している配列をすべて削除する。
-     *
-     *
-     *
-     *
-     */
 
     $pdo = getPDO();
-    $sql = 'select * from LoginManagement';
-    $stm = $pdo->prepare($sql);
+    $sql_select = 'select * from LoginManagement';
+    $stm = $pdo->prepare($sql_select);
     $stm->execute();
 
     $selectResult = $stm->fetchAll(PDO::FETCH_ASSOC);
     $tableTimestamp = null;
     $now = new DateTime();
+
     $deleteTargetRecords =[];
 
-    foreach($result as $row){
+    foreach($selectResult as $row){
         $diff = $now->diff(new DateTime($row['LoginTime']))->format('%i');
+
         if($diff > 30){
             $deleteTargetRecords[] = $row['UserName'];
         }
     }
 
-    //削除用のロジックをつくるところから始める
+    $sql_delete='';
+    foreach($deleteTargetRecords as $deleteTarget){
+
+        $sql_delete = "Delete from LoginManagement where UserName = '".$deleteTarget."'";
+
+        $stm = $pdo->prepare($sql_delete);
+        $stm->execute();
+
+
+    }
 
     $pdo = null;
 
-
-
 }
+
+/**
+ *  概要：LoginManagementテーブルにレコードを追加する。
+ *
+ *
+ * @param String $userName
+ */
 function insertInLoginMngTable($userName){
 
     $pdo = getPDO();
@@ -108,6 +118,30 @@ function insertInLoginMngTable($userName){
     $pdo = null;
 
 }
+/**
+ *  概要：LoginManagementテーブルに存在するレコードを更新する。
+ * @param String $userName
+ */
+function updateLoginMngTable($userName){
+    $pdo = getPDO();
+
+    $date = new DateTime();
+
+    $sql = "update LoginManagement set LoginTime = '".date_format($date, 'Y-m-d H:i:s.u')."' where UserName = '".$userName."'";
+
+    $stm = $pdo->prepare($sql);
+    $stm->execute();
+
+    $pdo = null;
+}
+
+/**
+ *  概要：LoginManagementテーブルに調査対象のユーザー情報が存在するか返す。
+ *  結果：存在する場合=true、存在しない場合=false
+ *
+ * @param String $userName
+ * @return boolean|array
+ */
 function existUserInLoginMngTable($userName){
     $resut = false;
 
