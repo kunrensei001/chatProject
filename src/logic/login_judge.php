@@ -56,7 +56,6 @@ $_SESSION['post_token']= $token;
                 if($row['pass'] == $_POST['pass']){
                     $loginFLG = true;
                     $userName = $row['userName'];
-                    $imgPath = $row['imgPath'];
                 }
             }
 
@@ -70,7 +69,7 @@ $_SESSION['post_token']= $token;
 
     session_start();
     $_SESSION['userName'] = $userName;
-    $_SESSION['imgPath'] = $imgPath;
+    $_SESSION['user'] = $_POST["id"];
 
     if($loginFLG){
 

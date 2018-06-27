@@ -162,4 +162,34 @@ function existUserInLoginMngTable($userName){
     return $result;
 }
 
+/**
+ *
+ */
+function createImgPath(string $user, int $imgNo):string{
+
+    define('IMGPATH_PRE','http://comcom0315.php.xdomain.jp/chat/img/');
+
+    $pdo = getPDO();
+    $sql = "select * from userImg where user = '".$user."' and imgNo =".$imgNo.";";
+    $stm = $pdo->prepare($sql);
+    $stm->execute();
+
+    $imgPath_suffix='';
+    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+    if(count($result) == 0){
+        $defaultSQL = "select * from userImg where user = '".$user."' and imgNo = 1;";
+        $stm = $pdo->prepare($defaultSQL);
+        $stm->execute();
+        $result_second = $stm->fetchAll(PDO::FETCH_ASSOC);
+
+        $imgPath_suffix = $result_second[0]['imgPath'];
+    }else{
+        foreach($result as $row){
+            $imgPath_suffix = $row['imgPath'];
+        }
+    }
+
+    $pdo = null;
+    return IMGPATH_PRE.$imgPath_suffix;
+}
 ?>

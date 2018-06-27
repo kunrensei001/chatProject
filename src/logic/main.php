@@ -13,9 +13,9 @@ if(checkLoginNG()){
     require_once '../hidden/DBaccess.php';
 
     $dsn = "mysql:host={$host};dbname={$dbName};charset=utf8";
-
     $session_userName = $_SESSION['userName'];
-    $session_imgPath = $_SESSION['imgPath'];
+
+    $imgPath = createImgPath((string)$_SESSION['user'], (int)$_POST['imgNo']);
     if(isSet($_POST["hatugen"])){
         if($_POST["hatugen"] != ""){
 
@@ -24,7 +24,7 @@ if(checkLoginNG()){
                 $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $sql = "insert hatugen(timestamp, hatugenSya, hatugenNaiyou, imgPath) values
-                    ('".date("Y/m/d H:i:s.u")."', '".$session_userName."', '".$_POST["hatugen"]."', '".$session_imgPath."')";
+                    ('".date("Y/m/d H:i:s.u")."', '".$session_userName."', '".$_POST["hatugen"]."', '".$imgPath."')";
                 $stm = $pdo->prepare($sql);
                 $stm->execute();
 
@@ -68,6 +68,12 @@ if(checkLoginNG()){
     	<input type="submit" value="発言">
     		<button type="button" onclick="location.href='"<?= $path_main ?>"'">更新</button>
 
+    	<br>
+    	<p>
+		<input type="radio" name="imgNo" value="1" checked="checked">その１
+		<input type="radio" name="imgNo" value="2" >その２
+		<input type="radio" name="imgNo" value="3" >その３
+		</p>
 
     	</form>
 
