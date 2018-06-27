@@ -56,6 +56,7 @@ $_SESSION['post_token']= $token;
                 if($row['pass'] == $_POST['pass']){
                     $loginFLG = true;
                     $userName = $row['userName'];
+                    $userColor = $row['userColor'];
                 }
             }
 
@@ -70,6 +71,7 @@ $_SESSION['post_token']= $token;
     session_start();
     $_SESSION['userName'] = $userName;
     $_SESSION['user'] = $_POST["id"];
+    $_SESSION['userColor'] = $userColor;
 
     if($loginFLG){
 

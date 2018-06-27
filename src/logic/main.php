@@ -23,8 +23,8 @@ if(checkLoginNG()){
                 $pdo = new PDO($dsn,$user,$password);
                 $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $sql = "insert hatugen(timestamp, hatugenSya, hatugenNaiyou, imgPath) values
-                    ('".date("Y/m/d H:i:s.u")."', '".$session_userName."', '".$_POST["hatugen"]."', '".$imgPath."')";
+                $sql = "insert hatugen(timestamp, hatugenSya, hatugenNaiyou, imgPath, userColor) values
+                    ('".date("Y/m/d H:i:s.u")."', '".$session_userName."', '".$_POST["hatugen"]."', '".$imgPath."', '".$_SESSION['userColor']."')";
                 $stm = $pdo->prepare($sql);
                 $stm->execute();
 
@@ -105,10 +105,10 @@ if(checkLoginNG()){
          ?>
 
     				<tr>
-    					<td style="text-align: center;"><?php echo $row['hatugenSya']?></td>
-    					<td><img src="<?php echo $row['imgPath'] ?>" width="100%"></td>
-    					<td style="word-wrap:break-word;"><?php echo $row['hatugenNaiyou']?></td>
-                        <td><?php echo $row['timestamp']?></td>
+    					<td bgcolor="<?php echo $row['userColor'] ?>" style="text-align: center;"><?php echo $row['hatugenSya']?></td>
+    					<td bgcolor="<?php echo $row['userColor'] ?>"><img src="<?php echo $row['imgPath'] ?>" width="100%"></td>
+    					<td bgcolor="<?php echo $row['userColor'] ?>" style="word-wrap:break-word;"><?php echo $row['hatugenNaiyou']?></td>
+                        <td bgcolor="<?php echo $row['userColor'] ?>"><?php echo $row['timestamp']?></td>
     				</tr>
 
     	<?php
