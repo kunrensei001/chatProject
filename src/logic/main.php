@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 //ログインテスト OK
 function loginFn() {
 	    $.ajax({
-	        url: 'http://comcom0315.php.xdomain.jp/chatTestVersion/logic/utility.php',
+	        url: 'http://comcom0315.php.xdomain.jp/chat/logic/utility.php',
 	        type: 'POST',
 	        data: {login: userName},
 	        success: function(res) {
@@ -181,7 +181,7 @@ function loginFn() {
 //ログアウトチェック
 function logoutCheck() {
 	jQuery.ajax({
-		url: "http://comcom0315.php.xdomain.jp/chatTestVersion/logic/utility.php",
+		url: "http://comcom0315.php.xdomain.jp/chat/logic/utility.php",
 		data: {action: "logout"},
         type: 'post',
         success: function(res) {
@@ -193,7 +193,7 @@ function logoutCheck() {
 //ログイン情報update実行
 function logUpdate() {
 	jQuery.ajax({
-		url: "http://comcom0315.php.xdomain.jp/chatTestVersion/logic/utility.php",
+		url: "http://comcom0315.php.xdomain.jp/chat/logic/utility.php",
 		data: {update: userName},
         type: 'post',
         success: function(res) {
