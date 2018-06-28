@@ -129,7 +129,46 @@ if(checkLoginNG()){
 
 	<div class="task">
 		タスク用領域
+		<div align="right">
+		<table border="1"id="memberTable">
+		<thead>
+		<tr>
+		<th>入室者</th>
+		<th>最終ログイン</th>
+		</tr>
+		</thead>
+		<tbody>
+		<?php
+        	try{
+        	    $pdo = new PDO($dsn,$user,$password);
+        	    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+        	    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+        	    $sql_select = "select * from LoginManagement order by LoginTime desc";
+        	    $stm = $pdo->prepare($sql_select);
+        	    $stm->execute();
+        	    $memberResult = $stm->fetchAll(PDO::FETCH_ASSOC);
+                foreach($memberResult as $mRow){
+         ?>
+    				<tr>
+                        <td><?php echo $mRow['UserName']?></td>
+                        <td><?php echo $mRow['LoginTime']?></td>
+    				</tr>
+    	<?php
+                }
+        	    $pdo = null;
+        	}catch(Exception $e){
+        	    echo '<span class="error">エラーがありました。</span><br>';
+        	    echo $e->getMessage();
+        	    exit();
+        	}
+    	?>
+		</tbody>
+		</table>
+		</div>
+		<div>
+<button type="button" onclick="showMember()">入室者一覧表示/非表示</button>
+		</div>
 	</div>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <script type="text/javascript">
@@ -200,6 +239,19 @@ function logUpdate() {
             console.log("更新テスト "); // ajax successful
         }
     });
+}
+
+//入室者一覧表示(block)/非表示(none)
+document.getElementById("memberTable").style.display ="none";
+
+function showMember(){
+	var showOrHide = document.getElementById("memberTable");
+
+	if(showOrHide.style.display=="block"){
+		showOrHide.style.display ="none";
+	}else{
+		showOrHide.style.display ="block";
+	}
 }
 </script>
 </body>
