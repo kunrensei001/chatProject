@@ -84,20 +84,17 @@ function getPDO(){
  */
 function deleteLogoutUser(){
 
-    $pdo = getPDO();
     $sql_select = 'select * from LoginManagement';
-    $stm = $pdo->prepare($sql_select);
-    $stm->execute();
+    $selectResult = selectSQLexec($sql_select);
 
-    $selectResult = $stm->fetchAll(PDO::FETCH_ASSOC);
     $tableTimestamp = null;
     $now = new DateTime();
 
     $deleteTargetRecords =[];
 
     foreach($selectResult as $row){
-        $diff = $now->diff(new DateTime($row['LoginTime']))->format('%i');
 
+        $diff = ($now->getTimestamp() - (new DateTime($row['LoginTime']))->getTimestamp())/60;
         if($diff > 30){
             $deleteTargetRecords[] = $row['UserName'];
         }
@@ -108,13 +105,9 @@ function deleteLogoutUser(){
 
         $sql_delete = "Delete from LoginManagement where UserName = '".$deleteTarget."'";
 
-        $stm = $pdo->prepare($sql_delete);
-        $stm->execute();
-
+        insert_update_deleteSQLexec($sql_delete);
 
     }
-
-    $pdo = null;
 
 }
 
@@ -126,16 +119,10 @@ function deleteLogoutUser(){
  */
 function insertInLoginMngTable($userName){
 
-    $pdo = getPDO();
-
     $date = new DateTime();
-
     $sql = "insert LoginManagement(UserName, LoginTime) values ('".$userName."', '".date_format($date, 'Y-m-d H:i:s.u')."')";
 
-    $stm = $pdo->prepare($sql);
-    $stm->execute();
-
-    $pdo = null;
+    insert_update_deleteSQLexec($sql);
 
 }
 /**
@@ -143,16 +130,12 @@ function insertInLoginMngTable($userName){
  * @param String $userName
  */
 function updateLoginMngTable($userName){
-    $pdo = getPDO();
 
     $date = new DateTime();
 
     $sql = "update LoginManagement set LoginTime = '".date_format($date, 'Y-m-d H:i:s.u')."' where UserName = '".$userName."'";
 
-    $stm = $pdo->prepare($sql);
-    $stm->execute();
-
-    $pdo = null;
+    insert_update_deleteSQLexec($sql);
 }
 
 /**
@@ -165,16 +148,10 @@ function updateLoginMngTable($userName){
 function existUserInLoginMngTable($userName){
     $resut = false;
 
-    $pdo = getPDO();
-
     $sql = "select * from LoginManagement where UserName = '".$userName."'";
 
-    $stm = $pdo->prepare($sql);
-    $stm->execute();
+    $result = selectSQLexec($sql);
 
-    $pdo = null;
-
-    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
     if(count($result)==1){
         $result = true;
     }
@@ -187,29 +164,64 @@ function existUserInLoginMngTable($userName){
  */
 function createImgPath(string $user, int $imgNo):string{
 
-    define('IMGPATH_PRE','http://comcom0315.php.xdomain.jp/chat/img/');
-
-    $pdo = getPDO();
     $sql = "select * from userImg where user = '".$user."' and imgNo =".$imgNo.";";
-    $stm = $pdo->prepare($sql);
-    $stm->execute();
+    $result = selectSQLexec($sql);
 
     $imgPath_suffix='';
-    $result = $stm->fetchAll(PDO::FETCH_ASSOC);
     if(count($result) == 0){
+
         $defaultSQL = "select * from userImg where user = '".$user."' and imgNo = 1;";
-        $stm = $pdo->prepare($defaultSQL);
-        $stm->execute();
-        $result_second = $stm->fetchAll(PDO::FETCH_ASSOC);
+        $result_second = selectSQLexec($defaultSQL);
 
         $imgPath_suffix = $result_second[0]['imgPath'];
+
     }else{
         foreach($result as $row){
             $imgPath_suffix = $row['imgPath'];
         }
     }
 
-    $pdo = null;
+    require '../hidden/pathList.php';
+
     return IMGPATH_PRE.$imgPath_suffix;
+}
+
+function insert_update_deleteSQLexec(string $sql){
+
+    try{
+        $pdo =getPDO();
+        $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $stm = $pdo->prepare($sql);
+        $stm->execute();
+
+        $pdo = null;
+    }catch(Exception $e){
+        echo '<span class="error">エラーがありました。</span><br>';
+        echo $e->getMessage();
+        exit();
+    }
+    $pdo = null;
+}
+
+function selectSQLexec(string $sql):array{
+    try{
+        $pdo =getPDO();
+        $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $stm = $pdo->prepare($sql);
+        $stm->execute();
+
+        $pdo = null;
+        $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+
+        return $result;
+
+    }catch(Exception $e){
+        echo '<span class="error">エラーがありました。</span><br>';
+        echo $e->getMessage();
+        exit();
+    }
+
 }
 ?>
