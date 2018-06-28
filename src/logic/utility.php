@@ -1,4 +1,23 @@
 <?php
+//ログ情報更新コントローラー
+if (isset($_POST['update'])) {
+    updateLoginMngTable($_POST['update']);
+}
+//ログインコントローラー
+if (isset($_POST['login'])) {
+    insertInLoginMngTable($_POST['login']);
+}
+
+//自動ログアウトコントローラ―
+if (isset($_POST['action']) && ! empty($_POST['action'])) {
+    $action = $_POST['action'];
+    switch ($action) {
+        case 'logout':
+            deleteLogoutUser();
+            break;
+    }
+}
+
 function checkLoginNG(){
 
     session_start();
