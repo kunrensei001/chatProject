@@ -4,6 +4,7 @@ if (isset($_POST['update'])) {
     updateLoginMngTable($_POST['update']);
 }
 //ログインコントローラー
+//test
 if (isset($_POST['login'])) {
     insertInLoginMngTable($_POST['login']);
 }
