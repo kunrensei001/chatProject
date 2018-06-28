@@ -57,6 +57,7 @@ if(checkLoginNG()){
         .task	{float: left;
         	width: 30%}
     </style>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 </head>
 <body>
 
@@ -66,7 +67,7 @@ if(checkLoginNG()){
     	発言：<input type="text" name="hatugen">
 
     	<input type="submit" value="発言">
-    		<button type="button" onclick="location.href='"<?= $path_main ?>"'">更新</button>
+    		<button type="button" onclick="location.href='http://comcom0315.php.xdomain.jp/chat/logic/main.php'">更新</button>
 
     	<br>
     	<p>
@@ -130,6 +131,76 @@ if(checkLoginNG()){
 		タスク用領域
 
 	</div>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript">
+var timer;
+var reloadTime = 1000 * 120; //2分毎に更新
+var userName = <?php echo json_encode($session_userName); ?>;
 
+function autoReload() {
+    location.href = "http://comcom0315.php.xdomain.jp/chat/logic/main.php";
+    return true;
+}
+
+function restartTimer() {
+    clearInterval(timer);
+    timer=setInterval('autoReload()', reloadTime);
+    return true;
+}
+
+function load() {
+    timer=setInterval('autoReload()', reloadTime);
+    document.body.addEventListener("mousedown", restartTimer, false);
+    document.body.addEventListener("mousemove", restartTimer, false);
+    document.body.addEventListener("keydown", restartTimer, false);
+    document.body.addEventListener("keypress", restartTimer, false);
+    document.body.addEventListener("keyup", restartTimer, false);
+}
+document.addEventListener("DOMContentLoaded", load, false);
+
+
+document.addEventListener("DOMContentLoaded", function(event) {
+    console.log("DOM fully loaded and parsed");
+    loginFn();
+    logoutCheck();
+    logUpdate();
+  });
+
+//ログインテスト OK
+function loginFn() {
+	    $.ajax({
+	        url: 'http://comcom0315.php.xdomain.jp/chatTestVersion/logic/utility.php',
+	        type: 'POST',
+	        data: {login: userName},
+	        success: function(res) {
+	            console.log("ログイン "); //ajax successful
+	        }
+	    });
+}
+
+//ログアウトチェック
+function logoutCheck() {
+	jQuery.ajax({
+		url: "http://comcom0315.php.xdomain.jp/chatTestVersion/logic/utility.php",
+		data: {action: "logout"},
+        type: 'post',
+        success: function(res) {
+            console.log("ログアウト判定スタート "); // ajax successful
+        }
+    });
+}
+
+//ログイン情報update実行
+function logUpdate() {
+	jQuery.ajax({
+		url: "http://comcom0315.php.xdomain.jp/chatTestVersion/logic/utility.php",
+		data: {update: userName},
+        type: 'post',
+        success: function(res) {
+            console.log("更新テスト "); // ajax successful
+        }
+    });
+}
+</script>
 </body>
 </html>
