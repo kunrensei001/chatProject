@@ -67,7 +67,7 @@ if(checkLoginNG()){
     	発言：<input type="text" name="hatugen">
 
     	<input type="submit" value="発言">
-    		<button type="button" onclick="location.href='http://comcom0315.php.xdomain.jp/chat/logic/main.php'">更新</button>
+    		<button type="button" onclick="location.href='./main.php'">更新</button>
 
     	<br>
     	<p>
@@ -175,9 +175,11 @@ if(checkLoginNG()){
 var timer;
 var reloadTime = 1000 * 120; //2分毎に更新
 var userName = <?php echo json_encode($session_userName); ?>;
+var mainPage = "../../.."+ <?php echo json_encode($path_main); ?>;
+var uPage = "../../.."+ <?php echo json_encode($path_ut); ?>;
 
 function autoReload() {
-    location.href = "http://comcom0315.php.xdomain.jp/chat/logic/main.php";
+    location.href = mainPage;
     return true;
 }
 
@@ -208,7 +210,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 //ログインテスト OK
 function loginFn() {
 	    $.ajax({
-	        url: 'http://comcom0315.php.xdomain.jp/chat/logic/utility.php',
+	        url: uPage,
 	        type: 'POST',
 	        data: {login: userName},
 	        success: function(res) {
@@ -220,7 +222,7 @@ function loginFn() {
 //ログアウトチェック
 function logoutCheck() {
 	jQuery.ajax({
-		url: "http://comcom0315.php.xdomain.jp/chat/logic/utility.php",
+		url: uPage,
 		data: {action: "logout"},
         type: 'post',
         success: function(res) {
@@ -232,7 +234,7 @@ function logoutCheck() {
 //ログイン情報update実行
 function logUpdate() {
 	jQuery.ajax({
-		url: "http://comcom0315.php.xdomain.jp/chat/logic/utility.php",
+		url: uPage,
 		data: {update: userName},
         type: 'post',
         success: function(res) {
