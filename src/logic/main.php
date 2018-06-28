@@ -19,22 +19,9 @@ if(checkLoginNG()){
     if(isSet($_POST["hatugen"])){
         if($_POST["hatugen"] != ""){
 
-            try{
-                $pdo = new PDO($dsn,$user,$password);
-                $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $sql = "insert hatugen(timestamp, hatugenSya, hatugenNaiyou, imgPath, userColor) values
                     ('".date("Y/m/d H:i:s.u")."', '".$session_userName."', '".$_POST["hatugen"]."', '".$imgPath."', '".$_SESSION['userColor']."')";
-                $stm = $pdo->prepare($sql);
-                $stm->execute();
-
-                $pdo = null;
-            }catch(Exception $e){
-                echo '<span class="error">エラーがありました。</span><br>';
-                echo $e->getMessage();
-                exit();
-            }
-
+                insert_update_deleteSQLexec($sql);
         }
     }
 ?>
@@ -93,16 +80,9 @@ if(checkLoginNG()){
         		</tr>
     		<tbody>
     	<?php
-        	try{
-        	    $pdo = new PDO($dsn,$user,$password);
-        	    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-        	    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-                $sql_select = "select * from hatugen order by timestamp desc";
-                $stm = $pdo->prepare($sql_select);
-                $stm->execute();
-                $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-                foreach($result as $row){
+            $sql_select = "select * from hatugen order by timestamp desc";
+            $result = selectSQLexec($sql_select);
+            foreach($result as $row){
          ?>
 
     				<tr>
@@ -113,14 +93,7 @@ if(checkLoginNG()){
     				</tr>
 
     	<?php
-                }
-        	    $pdo = null;
-        	}catch(Exception $e){
-        	    echo '<span class="error">エラーがありました。</span><br>';
-        	    echo $e->getMessage();
-        	    exit();
-        	}
-
+            }
     	?>
     		</tbody>
     	</table>
@@ -139,29 +112,16 @@ if(checkLoginNG()){
 		</thead>
 		<tbody>
 		<?php
-        	try{
-        	    $pdo = new PDO($dsn,$user,$password);
-        	    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,false);
-        	    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        	    $sql_select = "select * from LoginManagement order by LoginTime desc";
-        	    $stm = $pdo->prepare($sql_select);
-        	    $stm->execute();
-        	    $memberResult = $stm->fetchAll(PDO::FETCH_ASSOC);
-                foreach($memberResult as $mRow){
+        	$sql_select = "select * from LoginManagement order by LoginTime desc";
+        	$memberResult = selectSQLexec($sql_select);
+            foreach($memberResult as $mRow){
          ?>
     				<tr>
                         <td><?php echo $mRow['UserName']?></td>
                         <td><?php echo $mRow['LoginTime']?></td>
     				</tr>
     	<?php
-                }
-        	    $pdo = null;
-        	}catch(Exception $e){
-        	    echo '<span class="error">エラーがありました。</span><br>';
-        	    echo $e->getMessage();
-        	    exit();
-        	}
+            }
     	?>
 		</tbody>
 		</table>
