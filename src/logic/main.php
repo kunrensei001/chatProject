@@ -55,7 +55,7 @@ if(checkLoginNG()){
 
     	<input type="submit" value="発言">
     		<button type="button" onclick="location.href='./main.php'">更新</button>
-
+<div><button type="button" onclick="window.open('http://comcom0315.php.xdomain.jp/macho/index8.html', 'mywindow3', 'width=600, height=600, menubar=no, toolbar=no, scrollbars=yes')">公式ゲーム(βver.)を始める</button></div>
     	<br>
     	<p>
 		<input type="radio" name="imgNo" value="1" checked="checked">その１
@@ -204,7 +204,7 @@ function logUpdate() {
 }
 
 //入室者一覧表示(block)/非表示(none)
-document.getElementById("memberTable").style.display ="none";
+document.getElementById("memberTable").style.display ="block";
 
 function showMember(){
 	var showOrHide = document.getElementById("memberTable");
