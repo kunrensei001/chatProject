@@ -55,7 +55,7 @@ if(checkLoginNG()){
 
     	<input type="submit" value="発言">
     		<button type="button" onclick="location.href='./main.php'">更新</button>
-<div><button type="button" onclick="window.open('http://comcom0315.php.xdomain.jp/macho/index8.html', 'mywindow3', 'width=600, height=600, menubar=no, toolbar=no, scrollbars=yes')">公式ゲーム(βver.)を始める</button></div>
+
     	<br>
     	<p>
 		<input type="radio" name="imgNo" value="1" checked="checked">その１
@@ -129,6 +129,10 @@ if(checkLoginNG()){
 		<div>
 <button type="button" onclick="showMember()">入室者一覧表示/非表示</button>
 		</div>
+		<br>
+<div><button type="button" onclick="window.open('http://comcom0315.php.xdomain.jp/macho/index8.html', 'mywindow3', 'width=600, height=600, menubar=no, toolbar=no, scrollbars=yes')">公式ゲーム(βver.)を始める</button></div>
+<br>
+<div><button type="button" onclick="openUnityGame()">くそげー(βver.)を始める</button></div>
 	</div>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <script type="text/javascript">
@@ -214,6 +218,10 @@ function showMember(){
 	}else{
 		showOrHide.style.display ="block";
 	}
+}
+
+function openUnityGame(){
+	 var win = window.open('http://comcom0315.php.xdomain.jp/Game/index.html', '_blank');
 }
 </script>
 </body>
