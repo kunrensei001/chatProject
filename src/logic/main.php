@@ -101,11 +101,23 @@ if(checkLoginNG()){
          ?>
 
     				<tr>
-    					<td bgcolor="<?php echo $row['userColor'] ?>" style="text-align: center;"><?php echo $row['hatugenSya']?></td>
-    					<td bgcolor="<?php echo $row['userColor'] ?>"><img src="<?php echo $row['imgPath'] ?>" width="100%"></td>
-    					<td bgcolor="<?php echo $row['userColor'] ?>" style="word-wrap:break-word;"><?php echo $row['hatugenNaiyou']?></td>
-                        <td bgcolor="<?php echo $row['userColor'] ?>"><?php echo $row['timestamp']?></td>
-    				</tr>
+					<td bgcolor="<?php echo $row['userColor'] ?>"
+						style="text-align: center;"><?php echo $row['hatugenSya']?></td>
+					<td bgcolor="<?php echo $row['userColor'] ?>"><img
+						src="<?php echo $row['imgPath'] ?>" width="100%"></td>
+					<td bgcolor="<?php echo $row['userColor'] ?>" style="word-wrap: break-word;">
+					<?php
+					if(strpos($row['hatugenNaiyou'],'.jpg') !== false){
+					    ?>
+					    <img src="../stamp/<?php echo $row['hatugenNaiyou']?>" width="150" height="150">
+					    <?php
+					} else{
+					    echo $row['hatugenNaiyou'];
+					}
+					?>
+						</td>
+					<td bgcolor="<?php echo $row['userColor'] ?>"><?php echo $row['timestamp']?></td>
+				</tr>
 
     	<?php
             }
