@@ -55,7 +55,22 @@ if(checkLoginNG()){
 
     	<input type="submit" value="発言">
     		<button type="button" onclick="location.href='./main.php'">更新</button>
-
+<br>
+<div><button type="button" onclick="openStampList()">スタンプ選択(βver.) ラジオボタンをチェックして「発言」してね</button></div>
+<div>
+<table id ="stampList">
+<tr>
+<td><input name="hatugen" type="radio" value="okmacho.jpg"><img src="../stamp/okmacho.jpg" width="150" height="150"></td>
+<td><input name="hatugen" type="radio" value="oosako.jpg"><img src="../stamp/oosako.jpg" width="150" height="150"></td>
+<td><input name="hatugen" type="radio" value="gj.jpg"><img src="../stamp/gj.jpg" width="150" height="150"></td>
+</tr>
+<tr>
+<td><input name="hatugen" type="radio" value="muri.jpg"><img src="../stamp/muri.jpg" width="150" height="150"></td>
+<td><input name="hatugen" type="radio" value="thanksdg.jpg"><img src="../stamp/thanksdg.jpg" width="150" height="150"></td>
+<td><input name="hatugen" type="radio" value="whymacho.jpg"><img src="../stamp/whymacho.jpg" width="150" height="150"></td>
+</tr>
+</table>
+</div>
     	<br>
     	<p>
 		<input type="radio" name="imgNo" value="1" checked="checked">その１
@@ -212,6 +227,19 @@ document.getElementById("memberTable").style.display ="block";
 
 function showMember(){
 	var showOrHide = document.getElementById("memberTable");
+
+	if(showOrHide.style.display=="block"){
+		showOrHide.style.display ="none";
+	}else{
+		showOrHide.style.display ="block";
+	}
+}
+
+//スタンプ表示/非表示
+document.getElementById("stampList").style.display ="none";
+
+function openStampList(){
+	var showOrHide = document.getElementById("stampList");
 
 	if(showOrHide.style.display=="block"){
 		showOrHide.style.display ="none";
