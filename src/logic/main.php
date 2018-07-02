@@ -43,6 +43,11 @@ if(checkLoginNG()){
 
         .task	{float: left;
         	width: 30%}
+        .stampScroll{
+            width: 65%;
+            height: 200px;
+            overflow: scroll;
+            }
     </style>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 </head>
@@ -57,18 +62,23 @@ if(checkLoginNG()){
     		<button type="button" onclick="location.href='./main.php'">更新</button>
 <br>
 <div><button type="button" onclick="openStampList()">スタンプ選択(βver.) ラジオボタンをチェックして「発言」してね</button></div>
-<div>
-<table id ="stampList">
-<tr>
-<td><input name="hatugen" type="radio" value="okmacho.jpg"><img src="../stamp/okmacho.jpg" width="150" height="150"></td>
-<td><input name="hatugen" type="radio" value="oosako.jpg"><img src="../stamp/oosako.jpg" width="150" height="150"></td>
-<td><input name="hatugen" type="radio" value="gj.jpg"><img src="../stamp/gj.jpg" width="150" height="150"></td>
-</tr>
-<tr>
-<td><input name="hatugen" type="radio" value="muri.jpg"><img src="../stamp/muri.jpg" width="150" height="150"></td>
-<td><input name="hatugen" type="radio" value="thanksdg.jpg"><img src="../stamp/thanksdg.jpg" width="150" height="150"></td>
-<td><input name="hatugen" type="radio" value="whymacho.jpg"><img src="../stamp/whymacho.jpg" width="150" height="150"></td>
-</tr>
+<div class="stampScroll" id ="stampList">
+<table>
+    <tr>
+        <td><input name="hatugen" type="radio" value="okmacho.jpg"><img src="../stamp/okmacho.jpg" width="150" height="150"></td>
+        <td><input name="hatugen" type="radio" value="oosako.jpg"><img src="../stamp/oosako.jpg" width="150" height="150"></td>
+        <td><input name="hatugen" type="radio" value="gj.jpg"><img src="../stamp/gj.jpg" width="150" height="150"></td>
+    </tr>
+    <tr>
+        <td><input name="hatugen" type="radio" value="muri.jpg"><img src="../stamp/muri.jpg" width="150" height="150"></td>
+        <td><input name="hatugen" type="radio" value="thanksdg.jpg"><img src="../stamp/thanksdg.jpg" width="150" height="150"></td>
+        <td><input name="hatugen" type="radio" value="whymacho.jpg"><img src="../stamp/whymacho.jpg" width="150" height="150"></td>
+    </tr>
+    <tr>
+        <td><input name="hatugen" type="radio" value="nothanks.jpg"><img src="../stamp/nothanks.jpg" width="150" height="150"></td>
+        <td><input name="hatugen" type="radio" value="sleepy.jpg"><img src="../stamp/sleepy.jpg" width="150" height="150"></td>
+        <td><input name="hatugen" type="radio" value="what.jpg"><img src="../stamp/what.jpg" width="150" height="150"></td>
+    </tr>
 </table>
 </div>
     	<br>
@@ -95,7 +105,7 @@ if(checkLoginNG()){
         		</tr>
     		<tbody>
     	<?php
-            $sql_select = "select * from hatugen order by timestamp desc";
+            $sql_select = "select * from hatugen order by timestamp desc limit 40";
             $result = selectSQLexec($sql_select);
             foreach($result as $row){
          ?>
@@ -108,9 +118,9 @@ if(checkLoginNG()){
 					<td bgcolor="<?php echo $row['userColor'] ?>" style="word-wrap: break-word;">
 					<?php
 					if(strpos($row['hatugenNaiyou'],'.jpg') !== false){
-					    ?>
+					?>
 					    <img src="../stamp/<?php echo $row['hatugenNaiyou']?>" width="150" height="150">
-					    <?php
+					<?php
 					} else{
 					    echo $row['hatugenNaiyou'];
 					}
