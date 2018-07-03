@@ -18,9 +18,9 @@ if(checkLoginNG()){
     $imgPath = createImgPath((string)$_SESSION['user'], (int)$_POST['imgNo']);
     if(isSet($_POST["hatugen"])){
         if($_POST["hatugen"] != ""){
-
+            $AfterConversion_hatugen = nl2br($_POST["hatugen"]);
                 $sql = "insert hatugen(timestamp, hatugenSya, hatugenNaiyou, imgPath, userColor) values
-                    ('".date("Y/m/d H:i:s.u")."', '".$session_userName."', '".$_POST["hatugen"]."', '".$imgPath."', '".$_SESSION['userColor']."')";
+                    ('".date("Y/m/d H:i:s.u")."', '".$session_userName."', '".$AfterConversion_hatugen."', '".$imgPath."', '".$_SESSION['userColor']."')";
                 insert_update_deleteSQLexec($sql);
         }
     }
@@ -56,7 +56,7 @@ if(checkLoginNG()){
 	<div class="chat">
     	<form method="post" action="<?= $path_main ?>">
 
-    	発言：<input type="text" name="hatugen">
+    	発言：<textarea rows="3" cols="60" wrap="hard" name="hatugen"></textarea>
 
     	<input type="submit" value="発言">
     		<button type="button" onclick="location.href='./main.php'">更新</button>
