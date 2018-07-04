@@ -250,7 +250,7 @@ function getFileFromDirectory(string $path):array{
         if(is_file($file)){
 
             $result=[
-                'fileName'=>pathinfo($file, PATHINFO_FILENAME),
+                'fileName'=>pathinfo($file, PATHINFO_BASENAME),
                 'filePath'=>$file
             ];
 
