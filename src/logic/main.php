@@ -1,5 +1,6 @@
 <?php
 require_once 'utility.php';
+require_once 'logic.php';
 if(checkLoginNG()){
     require('../login.php');
     exit();
@@ -64,21 +65,10 @@ if(checkLoginNG()){
 <div><button type="button" onclick="openStampList()">スタンプ選択(βver.) ラジオボタンをチェックして「発言」してね</button></div>
 <div class="stampScroll" id ="stampList">
 <table>
-    <tr>
-        <td><input name="hatugen" type="radio" value="okmacho.jpg"><img src="../stamp/okmacho.jpg" width="150" height="150"></td>
-        <td><input name="hatugen" type="radio" value="oosako.jpg"><img src="../stamp/oosako.jpg" width="150" height="150"></td>
-        <td><input name="hatugen" type="radio" value="gj.jpg"><img src="../stamp/gj.jpg" width="150" height="150"></td>
-    </tr>
-    <tr>
-        <td><input name="hatugen" type="radio" value="muri.jpg"><img src="../stamp/muri.jpg" width="150" height="150"></td>
-        <td><input name="hatugen" type="radio" value="thanksdg.jpg"><img src="../stamp/thanksdg.jpg" width="150" height="150"></td>
-        <td><input name="hatugen" type="radio" value="whymacho.jpg"><img src="../stamp/whymacho.jpg" width="150" height="150"></td>
-    </tr>
-    <tr>
-        <td><input name="hatugen" type="radio" value="nothanks.jpg"><img src="../stamp/nothanks.jpg" width="150" height="150"></td>
-        <td><input name="hatugen" type="radio" value="sleepy.jpg"><img src="../stamp/sleepy.jpg" width="150" height="150"></td>
-        <td><input name="hatugen" type="radio" value="what.jpg"><img src="../stamp/what.jpg" width="150" height="150"></td>
-    </tr>
+	<?php
+        echo createStampTable();
+	?>
+
 </table>
 </div>
     	<br>
