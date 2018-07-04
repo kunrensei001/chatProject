@@ -1,12 +1,10 @@
 <?php
 require_once 'utility.php';
-require_once 'logic.php';
 if(checkLoginNG()){
     require('../login.php');
     exit();
 }
-
-
+require_once 'logic.php';
 ?>
 
 <?php
