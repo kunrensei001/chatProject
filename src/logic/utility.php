@@ -224,4 +224,42 @@ function selectSQLexec(string $sql):array{
     }
 
 }
+/**
+ *  指定したパス配下にあるファイルすべて取得する。
+ *
+ *  パスの指定方法は
+ *      絶対パス
+ *          レンタルサーバーなので「ドキュメントルート」を指定する必要がある。
+ *      相対パス☆おすすめ
+ *          呼び出すスクリプトの場所によって変わるので注意。
+ *
+ *  相対パスを指定しましょう。
+ *  絶対パス指定だとサーバーの構成丸見えになってしまうため。
+ *
+ *  最後は「/*」で終わること。
+ *
+ *
+ * @param string $path ファイルを取得したい
+ * @return array ファイル名とファイルパスがセットになった連想配列
+ */
+function getFileFromDirectory(string $path):array{
+
+    $results = [];
+
+    foreach(glob($path) as $file){
+        if(is_file($file)){
+
+            $result=[
+                'fileName'=>pathinfo($file, PATHINFO_FILENAME),
+                'filePath'=>$file
+            ];
+
+            $results[] = $result;
+
+        }
+    }
+
+    return $results;
+
+}
 ?>
